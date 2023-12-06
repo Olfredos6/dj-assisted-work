@@ -99,8 +99,20 @@ Destroying test database for alias 'default'...
 Ce que vous recherchez dans la sortie, c'est le texte `Found 1 test(s).`, `Ran 1 test in x.xxs` et ` OK`. Toute autre sortie que celle-ci signifie qu'il y a eu un problème.
 
 13. Ensuite, nous créons un modèle *Category*. Tout comme le modèle *Publisher*, le modèle de catégorie a seulement un attribut, un attribut *name* avec les mêmes spécifications. N'oubliez pas de mettre à jour la structure de votre base de données en créant et en appliquant une nouvelle migration.
-14. Exécutez la commande de test suivante pour vous assurer que vous pouvez créer des objets *Category* dans notre base de données: `python manage.py test website.tests.CategoryModelTestCase.test_can_create_category`
-15. Vous devriez obtenir une sortie similaire à celle précédente après avoir exécuté le test.
+14. Ajouter le code suivant code suivant dans `project/website/tests.py`
+```python
+class CategoryFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Category
+
+class CategoryModelTestCase(TestCase):
+    def test_can_create_category(self):
+        category = CategoryFactory.create()
+        self.assertQuerySetEqual(models.Category.objects.all(), [category])
+```
+
+15. Exécutez la commande de test suivante pour vous assurer que vous pouvez créer des objets *Category* dans notre base de données: `python manage.py test website.tests.CategoryModelTestCase.test_can_create_category`
+16. Vous devriez obtenir une sortie similaire à celle précédente après avoir exécuté le test.
 
 ```lua
 Found 1 test(s).
@@ -142,7 +154,8 @@ rating: DecimalField(max_digits=3, decimal_places=2)
 - Un livre ne peut avoir qu'un seul éditeur (indice : Clé étrangère)
 - Un livre peut avoir une ou plusieurs catégories (indice : Many-to-many)
 
-19. Exécutez la commande suivante pour tester si les étapes 17 et 18 ont été mises en œuvre avec succès:
+19. Replacez de code dans `project/website/tests.py` avec le code [dans](./tests.py)
+20. Exécutez la commande suivante pour tester si les étapes 17 et 18 ont été mises en œuvre avec succès:
 
 ```bash
 python manage.py test website.tests.BookModelTestCase.test_can_create_book
