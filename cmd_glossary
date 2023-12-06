@@ -1,0 +1,9 @@
+python -m venv .env
+.env\Scripts\activate.bat
+pip install Django==4.2
+django-admin startproject bookstore
+python manage.py startapp website
+python manage.py makemigrations
+python manage.py migrate
+python manage.py test
+python manage.py runserver
