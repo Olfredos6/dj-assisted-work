@@ -154,7 +154,7 @@ rating: DecimalField(max_digits=3, decimal_places=2)
 - Un livre ne peut avoir qu'un seul éditeur (indice : Clé étrangère)
 - Un livre peut avoir une ou plusieurs catégories (indice : Many-to-many)
 
-19. Replacez de code dans `project/website/tests.py` avec le code [dans](./tests.py)
+19. Replacez de code dans `project/website/tests.py` avec le code [ici](./tests.py)
 20. Exécutez la commande suivante pour tester si les étapes 17 et 18 ont été mises en œuvre avec succès:
 
 ```bash
