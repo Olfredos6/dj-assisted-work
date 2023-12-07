@@ -263,3 +263,35 @@ class CategoryViewTest(APITestCase):
             exiting_category.name, exiting_category_updated_data.get("name")
         )
 ```
+
+## Objets imbriqués
+Nous savons qu'un objet Book contient un objet Publisher et un ou plusieurs objets Category. Par exemple, voici un livre qui contient ces éléments.
+![Alt text](image-5.png)
+
+Cependant, nous aimerions afficher la représentation réelle de ces objets. Voici ce que nous souhaitons :
+![Alt text](image-6.png)
+
+Notez que les objets Publisher et Category dans l'image ci-dessus affichent la représentation complète des instances qui sont référencées sur l'objet Book. Avez-vous une idée de comment nous pourrions accomplir cela ? Pouvez-vous essayer de le découvrir par vous-même avant de faire défiler la page ? La documentation est disponible ici https://www.django-rest-framework.org/api-guide/relations/#nested-relationships
+
+... toujours rien ?
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+Voici comment nous pouvons imbriquer l'objet Publisher complet sous un objet Book. À l'intérieur de serializers.py, ajoutez le code suivant sous la classe BookSerializer :
+```python
+publisher = PublisherModelSerializer()
+```
+Avec le code ci-dessus, nous indiquons à DRF d'utiliser la version entièrement sérialisée de l'objet Publisher référencé au lieu d'utiliser simplement son `id` (clé étrangère). Nous le faisons en lui passant le sérialiseur à utiliser pour sérialiser l'attribut `publisher` d'un objet Book.
+
+If you refresh the page in the browser, you'll find that you now have the Publisher object fully displayed in the result.
+
+18. Utilisez le même principe sur le champ categories de Book également. L'exemple à l'adresse https://www.django-rest-framework.org/api-guide/relations/#example pourrait être utile.
+
+## Authentification et autorisations
+
+
+## Versionnement de l'API
