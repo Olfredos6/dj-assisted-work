@@ -66,7 +66,24 @@ assisted_tp/
 9. Ajoutez la nouvelle application créée à la liste des applications installées de notre projet.
 10. Créez une classe Publisher dans l'application website avec un seul attribut nommé name, qui doit être de type CharField avec une longueur maximale égale à 100.
 11. Créez les migrations de la base de données et appliquez-les. Pour cela, n'oubliez pas les commandes `makemigrations` et `migrate`.
-12. À mesure que nous avançons dans ce projet assisté, nous testerons certaines fonctionnalités en cours de route pour garantir la cohérence du projet. Cela sera possible en utilisant des tests unitaires. Voyons comment cela fonctionne avec Django.Commençons par copier le contenu du fichier à [cet emplacement](./tests.py) et collez-le dans le fichier test à l'emplacement `project/website/tests.py`. Nous créons le modèle Publisher à partir de l'étape précédente. Pour nous assurer que tout est en ordre, lançons un test qui vérifiera que nous avons fait les bonnes choses et que nous pouvons créer un objet Publisher dans nos applications. Pour ce faire, utilisez la commande suivante : `python manage.py test website.tests.PublisherModelTestCase.test_can_create_publisher`. Cela devrait renvoyer la sortie suivante :
+12. À mesure que nous avançons dans ce projet assisté, nous testerons certaines fonctionnalités en cours de route pour garantir la cohérence du projet. Cela sera possible en utilisant des tests unitaires. Voyons comment cela fonctionne avec Django.Commençons par copier le contenu du suivant dans dans le fichier test à l'emplacement `project/website/tests.py`. 
+```python
+
+import factory
+from django.test import TestCase
+
+from . import models
+
+class PublisherFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Publisher
+
+class PublisherModelTestCase(TestCase):
+    def test_can_create_publisher(self):
+        publisher = PublisherFactory.create()
+        self.assertQuerySetEqual(models.Publisher.objects.all(), [publisher])
+```
+Nous créons le modèle Publisher à partir de l'étape précédente. Pour nous assurer que tout est en ordre, lançons un test qui vérifiera que nous avons fait les bonnes choses et que nous pouvons créer un objet Publisher dans nos applications. Pour ce faire, utilisez la commande suivante : `python manage.py test website.tests.PublisherModelTestCase.test_can_create_publisher`. Cela devrait renvoyer la sortie suivante :
 
 ```lua
 Found 1 test(s).
@@ -82,8 +99,20 @@ Destroying test database for alias 'default'...
 Ce que vous recherchez dans la sortie, c'est le texte `Found 1 test(s).`, `Ran 1 test in x.xxs` et ` OK`. Toute autre sortie que celle-ci signifie qu'il y a eu un problème.
 
 13. Ensuite, nous créons un modèle *Category*. Tout comme le modèle *Publisher*, le modèle de catégorie a seulement un attribut, un attribut *name* avec les mêmes spécifications. N'oubliez pas de mettre à jour la structure de votre base de données en créant et en appliquant une nouvelle migration.
-14. Exécutez la commande de test suivante pour vous assurer que vous pouvez créer des objets *Category* dans notre base de données: `python manage.py test website.tests.CategoryModelTestCase.test_can_create_category`
-15. Vous devriez obtenir une sortie similaire à celle précédente après avoir exécuté le test.
+14. Ajouter le code suivant code suivant dans `project/website/tests.py`
+```python
+class CategoryFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Category
+
+class CategoryModelTestCase(TestCase):
+    def test_can_create_category(self):
+        category = CategoryFactory.create()
+        self.assertQuerySetEqual(models.Category.objects.all(), [category])
+```
+
+15. Exécutez la commande de test suivante pour vous assurer que vous pouvez créer des objets *Category* dans notre base de données: `python manage.py test website.tests.CategoryModelTestCase.test_can_create_category`
+16. Vous devriez obtenir une sortie similaire à celle précédente après avoir exécuté le test.
 
 ```lua
 Found 1 test(s).
@@ -125,7 +154,8 @@ rating: DecimalField(max_digits=3, decimal_places=2)
 - Un livre ne peut avoir qu'un seul éditeur (indice : Clé étrangère)
 - Un livre peut avoir une ou plusieurs catégories (indice : Many-to-many)
 
-19. Exécutez la commande suivante pour tester si les étapes 17 et 18 ont été mises en œuvre avec succès:
+19. Replacez de code dans `project/website/tests.py` avec le code [ici](./tests.py)
+20. Exécutez la commande suivante pour tester si les étapes 17 et 18 ont été mises en œuvre avec succès:
 
 ```bash
 python manage.py test website.tests.BookModelTestCase.test_can_create_book
