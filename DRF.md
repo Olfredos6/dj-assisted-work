@@ -291,7 +291,3 @@ If you refresh the page in the browser, you'll find that you now have the Publis
 
 18. Utilisez le même principe sur le champ categories de Book également. L'exemple à l'adresse https://www.django-rest-framework.org/api-guide/relations/#example pourrait être utile.
 
-## Authentification et autorisations
-
-
-## Versionnement de l'API
