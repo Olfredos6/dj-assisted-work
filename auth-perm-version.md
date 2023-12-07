@@ -81,4 +81,35 @@ Si nous obtenons un utilisateur, nous générerons un jeton et le renverrons dan
 8. Essayez de vous authentifier en utilisant le nom d'utilisateur et le mot de passe que vous avez créés au début de cette section en utilisant Postman comme suit
 ![Alt text](image-10.png)
 
+**"Veuillez copier le jeton dans un endroit sûr."**
 
+9. Maintenant que nous avons un jeton, nous pouvons l'inclure dans nos requêtes. Inclure le jeton que nous avons reçu dans nos requêtes permettra à notre API de savoir que nous sommes authentifiés. Pour ajouter le jeton dans la requête, ajoutez-le comme suit en utilisant Postman:
+
+![Alt text](image-11.png)
+
+
+10. Toujours dans Postman, décochez l'en-tête Authorization et essayez d'envoyer la requête à nouveau. Vous constaterez que même sans le jeton, nous pouvons toujours accéder aux données. 
+![Alt text](image-12.png)
+
+Eh bien, nous avons configuré l'authentification par jeton, mais nous n'avons pas indiqué à DRF sur quelles vues elle devrait être appliquée. Pour cela, nous devons spécifié une classe de permission au niveau de la classe qui garantira que seules les demandes authentifiées (d'utilisateurs authentifiés) sont traitées ou autorisées. Commençons par les vues pour les méthodes `/api/books`.
+
+
+11. DRF offre une autre astuce que nous pouvons utiliser sous la forme d'une classe. Importez le module `permissions` de `rest_framework` dans views.py comme suit :
+```
+from rest_framework import permissions, viewsets
+```
+Ensuite, assignez la permission `rest_framework.permissions.IsAuthenticated` à la liste des classes de permissions que le viewset `BookViewSets` utilise pour vérifier les permissions, comme suit :
+```python
+class BookViewSets(viewsets.ModelViewSet):
+    ...
+    permission_classes = [permissions.IsAuthenticated]
+    ...
+```
+
+12. Maintenant, dans Postman, essayez d'envoyer une requête à `/api/books` à nouveau sans l'en-tête **Authorization** et vous obtiendrez une erreur.
+![Alt text](image-13.png)
+
+13. Cochez à nouveau l'en-tête **Authorization** et soumettez la requête, tout devrait fonctionner correctement.
+14. Nous ne demandons l'authentification que lors de l'accès à `/api/books`, qu'en est-il de `/api/categories` et `/api/publishers` ? Pouvez-vous corriger cela ?
+
+15. Et comment nous assurer que `/api/counts` nécessite également une authentification ? Voici un indice : Il y a un exemple sur cette page https://www.django-rest-framework.org/api-guide/authentication/#setting-the-authentication-scheme avant la section *Unauthorized and Forbidden responses* qui pourrait aider.
