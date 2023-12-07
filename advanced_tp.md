@@ -11,7 +11,7 @@ application qui ne peut actuellement être utilisée que pour les données de 20
 ● processFile – POST
   ○ Accepte un fichier CSV
   ○ Traite le fichier CSV et valide chaque ligne
-  ○ Ce document est livré avec quelques fichiers CSV que votre programme devrait
+  ○ Ce document est livré avec quelques small.csv que votre programme devrait
 accepter, contenant les colonnes suivantes :
     ■ date
     ■ country
