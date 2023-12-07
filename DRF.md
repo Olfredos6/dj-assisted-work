@@ -290,4 +290,3 @@ Avec le code ci-dessus, nous indiquons à DRF d'utiliser la version entièrement
 If you refresh the page in the browser, you'll find that you now have the Publisher object fully displayed in the result.
 
 18. Utilisez le même principe sur le champ categories de Book également. L'exemple à l'adresse https://www.django-rest-framework.org/api-guide/relations/#example pourrait être utile.
-
